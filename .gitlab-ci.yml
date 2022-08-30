@@ -339,8 +339,9 @@ evaluate_missing_metrics:
   script:
     - chmod +x ./local/bin/py/missing_metrics.py && ./local/bin/py/missing_metrics.py -k $(get_secret 'dd-demo-api-key') -p $(get_secret 'dd-demo-app-key') -a $(get_secret 'dd-api-key') -b $(get_secret 'dd-app-key')
   when: manual
-  only:
-    - master
+  # TODO uchen uncomment
+  #only:
+  #  - master
 
 # Uploads git ignored source (EN) files to Transifex as part of the nightly build.
 # The translation syncing pipeline is triggered by github webhook, but these files are not in git.
