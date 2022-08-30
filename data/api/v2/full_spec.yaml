@@ -522,6 +522,135 @@ components:
       type: string
       x-enum-varnames:
       - API_KEYS
+    AccountConfig:
+      description: An API key and API secret pair that represents a Confluent account.
+      properties:
+        attributes:
+          $ref: '#/components/schemas/AccountConfigAttributes'
+        id:
+          description: A randomly generated ID associated with a Confluent account.
+          example: account_id_abc123
+          type: string
+        type:
+          $ref: '#/components/schemas/AccountConfigType'
+      required:
+      - attributes
+      - id
+      - type
+      type: object
+    AccountConfigAttributes:
+      description: The attributes of a Confluent account.
+      properties:
+        api_key:
+          description: The API key associated with your Confluent account.
+          example: TESTAPIKEY123
+          type: string
+        api_secret:
+          description: The API secret associated with your Confluent account.
+          example: test-api-secret-123
+          type: string
+          writeOnly: true
+        resources:
+          description: A list of Confluent resources associated with the Confluent
+            account.
+          items:
+            $ref: '#/components/schemas/ConfluentCloudResource'
+          type: array
+        tags:
+          description: A comma-delimited string representation of tags. Can be a single
+            key, or key-value pairs separated by a colon.
+          example:
+          - myTag
+          - myTag2:myValue
+          items:
+            type: string
+          type: array
+      required:
+      - api_key
+      - api_secret
+      type: object
+    AccountConfigResponse:
+      description: The expected response schema when getting a Confluent account.
+      properties:
+        data:
+          $ref: '#/components/schemas/AccountConfig'
+      type: object
+    AccountConfigType:
+      default: confluent-cloud-accounts
+      description: The JSON:API type for this API. Should always be `confluent-cloud-accounts`.
+      enum:
+      - confluent-cloud-accounts
+      example: confluent-cloud-accounts
+      type: string
+      x-enum-varnames:
+      - CONFLUENT_CLOUD_ACCOUNTS
+    AccountConfigsResponse:
+      description: Confluent account returned by the API.
+      properties:
+        data:
+          description: The Confluent account.
+          items:
+            $ref: '#/components/schemas/AccountConfig'
+          type: array
+      type: object
+    AddAccount:
+      description: The data body for adding a Confluent account.
+      properties:
+        attributes:
+          $ref: '#/components/schemas/AddAccountAttributes'
+        type:
+          $ref: '#/components/schemas/AddAccountType'
+      required:
+      - attributes
+      - type
+      type: object
+    AddAccountAttributes:
+      description: Attributes associated with the account creation request.
+      properties:
+        api_key:
+          description: The API key associated with your Confluent account.
+          example: TESTAPIKEY123
+          type: string
+        api_secret:
+          description: The API secret associated with your Confluent account.
+          example: test-api-secret-123
+          type: string
+        resources:
+          description: A list of Confluent resources associated with the Confluent
+            account.
+          items:
+            $ref: '#/components/schemas/ConfluentCloudResource'
+          type: array
+        tags:
+          description: A comma-delimited string representation of tags. Can be a single
+            key, or key-value pairs separated by a colon.
+          example:
+          - myTag
+          - myTag2:myValue
+          items:
+            type: string
+          type: array
+      required:
+      - api_key
+      - api_secret
+      type: object
+    AddAccountRequest:
+      description: Payload schema when adding a Confluent account.
+      properties:
+        data:
+          $ref: '#/components/schemas/AddAccount'
+      required:
+      - data
+      type: object
+    AddAccountType:
+      default: confluent-cloud-accounts
+      description: The JSON:API type. Will always be `confluent-cloud-accounts`.
+      enum:
+      - confluent-cloud-accounts
+      example: confluent-cloud-accounts
+      type: string
+      x-enum-varnames:
+      - CONFLUENT_CLOUD_ACCOUNTS
     ApplicationKeyCreateAttributes:
       description: Attributes used to create an application Key.
       properties:
@@ -1286,6 +1415,54 @@ components:
           description: A list of Agent rules objects.
           items:
             $ref: '#/components/schemas/CloudWorkloadSecurityAgentRuleData'
+          type: array
+      type: object
+    ConfluentCloudResource:
+      description: Model representation of a Confluent Cloud resource.
+      properties:
+        id:
+          description: The ID associated with the Confluent resource.
+          example: resource_id_abc123
+          type: string
+        resource_type:
+          description: The resource type of the Resource. Can be `kafka`, `connector`,
+            `ksql`, or `schema_registry`.
+          example: kafka
+          type: string
+        tags:
+          description: A comma-delimited string representation of tags. Can be a single
+            key, or key-value pairs separated by a colon.
+          example:
+          - myTag
+          - myTag2:myValue
+          items:
+            type: string
+          type: array
+      required:
+      - id
+      - resource_type
+      type: object
+    ConfluentCloudResourceRequest:
+      description: Payload schema when interacting with a Confluent resource.
+      properties:
+        data:
+          $ref: '#/components/schemas/ConfluentCloudResource'
+      required:
+      - data
+      type: object
+    ConfluentCloudResourceResponse:
+      description: Response schema when interacting with a Confluent resource.
+      properties:
+        data:
+          $ref: '#/components/schemas/ConfluentCloudResource'
+      type: object
+    ConfluentCloudResourcesResponse:
+      description: Response schema when interacting with a list of Confluent resources.
+      properties:
+        data:
+          description: The JSON:API data attribute.
+          items:
+            $ref: '#/components/schemas/ConfluentCloudResource'
           type: array
       type: object
     ContentEncoding:
@@ -8062,6 +8239,108 @@ components:
       required:
       - data
       type: object
+    UpdateAccount:
+      description: Data object for updating a Confluent account.
+      properties:
+        attributes:
+          $ref: '#/components/schemas/UpdateAccountAttributes'
+        type:
+          $ref: '#/components/schemas/UpdateAccountType'
+      required:
+      - attributes
+      - type
+      type: object
+    UpdateAccountAttributes:
+      description: Attributes object for updating a Confluent account.
+      properties:
+        api_key:
+          description: The API key associated with your Confluent account.
+          example: TESTAPIKEY123
+          type: string
+        api_secret:
+          description: The API secret associated with your Confluent account.
+          example: test-api-secret-123
+          type: string
+        tags:
+          description: A comma-delimited string representation of tags. Can be a single
+            key, or key-value pairs separated by a colon.
+          example:
+          - myTag
+          - myTag2:myValue
+          items:
+            type: string
+          type: array
+      required:
+      - api_key
+      - api_secret
+      type: object
+    UpdateAccountRequest:
+      description: The JSON:API request for updating a Confluent account.
+      properties:
+        data:
+          $ref: '#/components/schemas/UpdateAccount'
+      required:
+      - data
+      type: object
+    UpdateAccountType:
+      default: confluent-cloud-accounts
+      description: The JSON:API type for this request.
+      enum:
+      - confluent-cloud-accounts
+      example: confluent-cloud-accounts
+      type: string
+      x-enum-varnames:
+      - CONFLUENT_CLOUD_ACCOUNTS
+    UpdateResource:
+      description: JSON:API request for updating a Confluent resource.
+      properties:
+        attributes:
+          $ref: '#/components/schemas/UpdateResourceAttributes'
+        id:
+          description: The ID associated with a Confluent resource.
+          example: resource-id-123
+          type: string
+        type:
+          $ref: '#/components/schemas/UpdateResourceType'
+      required:
+      - id
+      - type
+      type: object
+    UpdateResourceAttributes:
+      description: Attributes object for updating a Confluent resource.
+      properties:
+        resource_type:
+          description: The resource type of the Resource. Can be `kafka`, `connector`,
+            `ksql`, or `schema_registry`.
+          example: kafka
+          type: string
+        tags:
+          description: A comma-delimited string representation of tags. Can be a single
+            key, or key-value pairs separated by a colon.
+          example:
+          - myTag
+          - myTag2:myValue
+          items:
+            type: string
+          type: array
+      type: object
+    UpdateResourceRequest:
+      description: The JSON:API request for updating a Confluent resource.
+      properties:
+        data:
+          $ref: '#/components/schemas/UpdateResource'
+      required:
+      - data
+      type: object
+    UpdateResourceType:
+      default: confluent-cloud-resources
+      description: The JSON:API type for this request.
+      enum:
+      - confluent-cloud-resources
+      example: confluent-cloud-resources
+      type: string
+      x-enum-varnames:
+      - CONFLUENT_CLOUD_RESOURCES
     UsageApplicationSecurityMonitoringResponse:
       description: Application Security Monitoring usage response.
       properties:
@@ -10085,6 +10364,669 @@ paths:
       x-menu-order: 4
       x-undo:
         type: idempotent
+  /api/v2/integrations/confluent-cloud/accounts:
+    get:
+      description: Get a Confluent account with the provided account id.
+      operationId: ConfluentCloudPublic1
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountConfigsResponse'
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+      security:
+      - apiKeyAuth: []
+        appKeyAuth: []
+      summary: List Confluent accounts
+      tags:
+      - Confluent Cloud Accounts API
+      x-dd-ownership:
+        notification_configuration:
+          manual_escalation_policy: '[production][team][web-integrations]'
+          prod_high_urgency: '@pagerduty-web-integrations-high-urgency  @slack-web-integrations-ops'
+          prod_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          slack_support_channel: '#web-integrations'
+          staging_high_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          staging_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+        team: web-integrations
+        team_escalation: '[production][team][web-integrations]'
+      x-permission:
+        operator: OR
+        permissions:
+        - STANDARD
+      x-undo:
+        type: safe
+    post:
+      description: Create a Confluent account.
+      operationId: ConfluentCloudPublic3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddAccountRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountConfigResponse'
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+      security:
+      - apiKeyAuth: []
+        appKeyAuth: []
+      summary: Add Confluent account
+      tags:
+      - Confluent Cloud Accounts API
+      x-codegen-request-body-name: body
+      x-dd-ownership:
+        notification_configuration:
+          manual_escalation_policy: '[production][team][web-integrations]'
+          prod_high_urgency: '@pagerduty-web-integrations-high-urgency  @slack-web-integrations-ops'
+          prod_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          slack_support_channel: '#web-integrations'
+          staging_high_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          staging_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+        team: web-integrations
+        team_escalation: '[production][team][web-integrations]'
+      x-permission:
+        operator: OR
+        permissions:
+        - STANDARD
+      x-undo:
+        type: safe
+  /api/v2/integrations/confluent-cloud/accounts/{account_id}:
+    delete:
+      description: Delete a Confluent account with the provided account ID.
+      operationId: ConfluentCloudPublic5
+      parameters:
+      - description: None
+        in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+      security:
+      - apiKeyAuth: []
+        appKeyAuth: []
+      summary: Delete Confluent account
+      tags:
+      - Confluent Cloud Accounts API
+      x-dd-ownership:
+        notification_configuration:
+          manual_escalation_policy: '[production][team][web-integrations]'
+          prod_high_urgency: '@pagerduty-web-integrations-high-urgency  @slack-web-integrations-ops'
+          prod_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          slack_support_channel: '#web-integrations'
+          staging_high_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          staging_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+        team: web-integrations
+        team_escalation: '[production][team][web-integrations]'
+      x-permission:
+        operator: OR
+        permissions:
+        - STANDARD
+      x-undo:
+        type: safe
+    get:
+      description: Get the Confluent account with the provided account ID.
+      operationId: ConfluentCloudPublic2
+      parameters:
+      - description: None
+        in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountConfigResponse'
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+      security:
+      - apiKeyAuth: []
+        appKeyAuth: []
+      summary: Get Confluent account
+      tags:
+      - Confluent Cloud Accounts API
+      x-dd-ownership:
+        notification_configuration:
+          manual_escalation_policy: '[production][team][web-integrations]'
+          prod_high_urgency: '@pagerduty-web-integrations-high-urgency  @slack-web-integrations-ops'
+          prod_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          slack_support_channel: '#web-integrations'
+          staging_high_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          staging_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+        team: web-integrations
+        team_escalation: '[production][team][web-integrations]'
+      x-permission:
+        operator: OR
+        permissions:
+        - STANDARD
+      x-undo:
+        type: safe
+    patch:
+      description: Update the Confluent account with the provided account ID.
+      operationId: ConfluentCloudPublic4
+      parameters:
+      - description: None
+        in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccountRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountConfigResponse'
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+      security:
+      - apiKeyAuth: []
+        appKeyAuth: []
+      summary: Update Confluent account
+      tags:
+      - Confluent Cloud Accounts API
+      x-codegen-request-body-name: body
+      x-dd-ownership:
+        notification_configuration:
+          manual_escalation_policy: '[production][team][web-integrations]'
+          prod_high_urgency: '@pagerduty-web-integrations-high-urgency  @slack-web-integrations-ops'
+          prod_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          slack_support_channel: '#web-integrations'
+          staging_high_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          staging_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+        team: web-integrations
+        team_escalation: '[production][team][web-integrations]'
+      x-permission:
+        operator: OR
+        permissions:
+        - STANDARD
+      x-undo:
+        type: safe
+  /api/v2/integrations/confluent-cloud/accounts/{account_id}/resources:
+    get:
+      description: Get a Confluent resource for the account associated with the provided
+        ID.
+      operationId: ConfluentCloudPublic6
+      parameters:
+      - description: None
+        in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountConfigResponse'
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+      security:
+      - apiKeyAuth: []
+        appKeyAuth: []
+      summary: List Confluent Account resources
+      tags:
+      - Confluent Cloud Accounts API
+      x-dd-ownership:
+        notification_configuration:
+          manual_escalation_policy: '[production][team][web-integrations]'
+          prod_high_urgency: '@pagerduty-web-integrations-high-urgency  @slack-web-integrations-ops'
+          prod_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          slack_support_channel: '#web-integrations'
+          staging_high_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          staging_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+        team: web-integrations
+        team_escalation: '[production][team][web-integrations]'
+      x-permission:
+        operator: OR
+        permissions:
+        - STANDARD
+      x-undo:
+        type: safe
+    post:
+      description: Create a Confluent resource for the account associated with the
+        provided ID.
+      operationId: ConfluentCloudPublic8
+      parameters:
+      - description: None
+        in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfluentCloudResourceRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfluentCloudResourceResponse'
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+      security:
+      - apiKeyAuth: []
+        appKeyAuth: []
+      summary: Add resource to Confluent account
+      tags:
+      - Confluent Cloud Accounts API
+      x-codegen-request-body-name: body
+      x-dd-ownership:
+        notification_configuration:
+          manual_escalation_policy: '[production][team][web-integrations]'
+          prod_high_urgency: '@pagerduty-web-integrations-high-urgency  @slack-web-integrations-ops'
+          prod_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          slack_support_channel: '#web-integrations'
+          staging_high_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          staging_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+        team: web-integrations
+        team_escalation: '[production][team][web-integrations]'
+      x-permission:
+        operator: OR
+        permissions:
+        - STANDARD
+      x-undo:
+        type: safe
+  /api/v2/integrations/confluent-cloud/accounts/{account_id}/resources/{resource_id}:
+    delete:
+      description: Delete a Confluent resource with the provided resource id for the
+        account associated with the provided account ID.
+      operationId: ConfluentCloudPublic10
+      parameters:
+      - description: None
+        in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      - description: None
+        in: path
+        name: resource_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+      security:
+      - apiKeyAuth: []
+        appKeyAuth: []
+      summary: Delete resource from Confluent account
+      tags:
+      - Confluent Cloud Accounts API
+      x-dd-ownership:
+        notification_configuration:
+          manual_escalation_policy: '[production][team][web-integrations]'
+          prod_high_urgency: '@pagerduty-web-integrations-high-urgency  @slack-web-integrations-ops'
+          prod_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          slack_support_channel: '#web-integrations'
+          staging_high_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          staging_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+        team: web-integrations
+        team_escalation: '[production][team][web-integrations]'
+      x-permission:
+        operator: OR
+        permissions:
+        - STANDARD
+      x-undo:
+        type: safe
+    get:
+      description: Get a Confluent resource with the provided resource id for the
+        account associated with the provided account ID.
+      operationId: ConfluentCloudPublic7
+      parameters:
+      - description: None
+        in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      - description: None
+        in: path
+        name: resource_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfluentCloudResourcesResponse'
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+      security:
+      - apiKeyAuth: []
+        appKeyAuth: []
+      summary: Get resource from Confluent account
+      tags:
+      - Confluent Cloud Accounts API
+      x-dd-ownership:
+        notification_configuration:
+          manual_escalation_policy: '[production][team][web-integrations]'
+          prod_high_urgency: '@pagerduty-web-integrations-high-urgency  @slack-web-integrations-ops'
+          prod_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          slack_support_channel: '#web-integrations'
+          staging_high_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          staging_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+        team: web-integrations
+        team_escalation: '[production][team][web-integrations]'
+      x-permission:
+        operator: OR
+        permissions:
+        - STANDARD
+      x-undo:
+        type: safe
+    patch:
+      description: Update a Confluent resource with the provided resource id for the
+        account associated with the provided account ID.
+      operationId: ConfluentCloudPublic9
+      parameters:
+      - description: None
+        in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+      - description: None
+        in: path
+        name: resource_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateResourceRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfluentCloudResourceResponse'
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIErrorResponse'
+          description: API error response.
+      security:
+      - apiKeyAuth: []
+        appKeyAuth: []
+      summary: Update resource in Confluent account
+      tags:
+      - Confluent Cloud Accounts API
+      x-codegen-request-body-name: body
+      x-dd-ownership:
+        notification_configuration:
+          manual_escalation_policy: '[production][team][web-integrations]'
+          prod_high_urgency: '@pagerduty-web-integrations-high-urgency  @slack-web-integrations-ops'
+          prod_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          slack_support_channel: '#web-integrations'
+          staging_high_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+          staging_low_urgency: '@pagerduty-web-integrations-low-urgency @slack-web-integrations-ops'
+        team: web-integrations
+        team_escalation: '[production][team][web-integrations]'
+      x-permission:
+        operator: OR
+        permissions:
+        - STANDARD
+      x-undo:
+        type: safe
   /api/v2/logs:
     post:
       description: 'Send your logs to your Datadog platform over HTTP. Limits per
@@ -15727,6 +16669,9 @@ tags:
 - description: Workload activity security rules for generating events using the Datadog
     security Agent.
   name: Cloud Workload Security
+- description: Configure your Datadog Confluent Cloud integration directly through
+    the Datadog API.
+  name: Confluent Cloud Accounts API
 - description: 'Interact with your dashboard lists through the API to
 
     organize, find, and share all of your dashboards with your team and
