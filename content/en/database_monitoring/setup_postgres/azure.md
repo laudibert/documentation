@@ -215,7 +215,7 @@ To configure collecting Database Monitoring metrics for an Agent running on a ho
      - dbm: true
        host: '<AZURE_INSTANCE_ENDPOINT>'
        port: 5432
-       username: datadog
+       username: 'datadog@<YOUR_INSTANCE_NAME>'
        password: '<PASSWORD>'
        ## Required for Postgres 9.6: Uncomment these lines to use the functions created in the setup
        # pg_stat_statements_view: datadog.pg_stat_statements()
@@ -226,7 +226,7 @@ To configure collecting Database Monitoring metrics for an Agent running on a ho
        # After adding your project and instance, configure the Datadog Azure integration to pull additional cloud data such as CPU, Memory, etc.
        azure:
         deployment_type: '<DEPLOYMENT_TYPE>'
-        name: '<YOUR_INSTANCE_NAME>'
+        name: '<YOUR_DATABASE_NAME>'
    ```
 2. [Restart the Agent][2].
 
@@ -258,11 +258,12 @@ docker run -e "DD_API_KEY=${DD_API_KEY}" \
     "dbm": true,
     "host": "<AZURE_INSTANCE_ENDPOINT>",
     "port": 5432,
-    "username": "datadog",
+    "ssl": true,
+    "username": "datadog@<YOUR_INSTANCE_NAME>",
     "password": "<UNIQUEPASSWORD>",
     "azure": {
       "deployment_type": "<DEPLOYMENT_TYPE>",
-      "name": "<YOUR_INSTANCE_NAME>"
+      "name": "<YOUR_DATABASE_NAME>"
     }
   }]' \
   datadog/agent:${DD_AGENT_VERSION}
@@ -328,11 +329,11 @@ instances:
   - dbm: true
     host: <AZURE_INSTANCE_ENDPOINT>
     port: 5432
-    username: datadog
+    username: "datadog@<YOUR_INSTANCE_NAME>"
     password: "<UNIQUEPASSWORD>"
     azure:
       deployment_type: "<DEPLOYMENT_TYPE>"
-      name: "<YOUR_INSTANCE_NAME>" \
+      name: "<YOUR_DATABASE_NAME>" \
   datadog/datadog
 ```
 
@@ -354,12 +355,12 @@ instances:
   - dbm: true
     host: '<AZURE_INSTANCE_ENDPOINT>'
     port: 5432
-    username: datadog
+    username: 'datadog@<YOUR_INSTANCE_NAME>'
     password: '<PASSWORD>'
     # After adding your project and instance, configure the Datadog Azure integration to pull additional cloud data such as CPU, Memory, etc.
     azure:
       deployment_type: '<DEPLOYMENT_TYPE>'
-      name: '<YOUR_INSTANCE_NAME>'
+      name: '<YOUR_DATABASE_NAME>'
 
     ## Required: For Postgres 9.6, uncomment these lines to use the functions created in the setup
     # pg_stat_statements_view: datadog.pg_stat_statements()
@@ -388,11 +389,12 @@ metadata:
           "dbm": true,
           "host": "<AZURE_INSTANCE_ENDPOINT>",
           "port": 5432,
-          "username": "datadog",
+          "ssl": true,
+          "username": "datadog@<YOUR_INSTANCE_NAME>",
           "password": "<UNIQUEPASSWORD>",
           "azure": {
             "deployment_type": "<DEPLOYMENT_TYPE>",
-            "name": "<YOUR_INSTANCE_NAME>"
+            "name": "<YOUR_DATABASE_NAME>"
           }
         }
       ]
